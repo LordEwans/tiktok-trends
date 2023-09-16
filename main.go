@@ -25,7 +25,9 @@ func main() {
 
 	arr := fetch.GetData(c)
 	app.Get("/", func(c *fiber.Ctx) error {
-		return c.JSON(arr)
+		return c.JSON(fiber.Map{
+			"data": arr,
+		})
 	})
 
 	app.Listen(getPort())
