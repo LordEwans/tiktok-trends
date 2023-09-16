@@ -21,11 +21,12 @@ func getPort() string {
 
 func main() {
 	app := fiber.New()
-	c := colly.NewCollector()
 
-	arr := fetch.GetData(c)
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.JSON(fiber.Map{
+	app.Get("/", func(ctx *fiber.Ctx) error {
+		c := colly.NewCollector()
+
+		arr := fetch.GetData(c)
+		return ctx.JSON(fiber.Map{
 			"data": arr,
 		})
 	})
