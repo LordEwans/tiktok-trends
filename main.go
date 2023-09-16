@@ -1,32 +1,19 @@
 package main
 
 import (
-	"fmt"
-
+	"github.com/LordEwan/tiktok-trends/internal/fetch"
 	"github.com/gocolly/colly"
+	"github.com/gofiber/fiber/v2"
 )
 
 func main() {
+	app := fiber.New()
 	c := colly.NewCollector()
 
-	arr := fetchData(c)
-	fmt.Print(arr)
-}
-
-func fetchData(c *colly.Collector) []string {
-	arr := make([]string, 0)
-
-	c.OnRequest(func(r *colly.Request) {
-		fmt.Println("Visiting", r.URL.String())
+	arr := fetch.GetData(c)
+	app.Get("/", func(c *fiber.Ctx) error {
+		return c.JSON(arr)
 	})
-	c.OnHTML("strong", func(h *colly.HTMLElement) {
-		class := h.Attr("class")
 
-		if class == "tiktok-1p6dp51-StrongText ejg0rhn2" {
-			arr = append(arr, h.Text)
-		}
-	})
-	c.Visit("http://tiktok.com/explore")
-
-	return arr
+	app.Listen(":8080")
 }
