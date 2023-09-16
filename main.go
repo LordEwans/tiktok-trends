@@ -1,16 +1,8 @@
 package main
 
-import (
-	"log"
-
-	tiktok_api "github.com/arthurkushman/tiktok-api"
-)
+import "github.com/gocolly/colly"
 
 func main() {
-	tts := tiktok_api.NewTikTokService()
+	c := colly.NewCollector()
 
-	resp, err := tts.Embed()
-	if err != nil {
-		log.Fatal(err)
-	}
 }
